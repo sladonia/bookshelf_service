@@ -1,0 +1,4 @@
+servicename: bookshelf_service
+env: dev
+loglevel: debug
+port: :8080

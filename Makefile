@@ -1,6 +1,6 @@
 
 run:
-	go run ./src/.
+	@ go run ./src/.
 
 build:
 	go build -o ./bin/service ./src/.
@@ -12,4 +12,8 @@ dep:
 	@ cd src
 	go mod tidy
 
-.PHONY: run
+update:
+	@ cd src
+	go get -u
+
+.PHONY: run build fmt dep update

@@ -1,17 +1,23 @@
 package app
 
 import (
-	"log"
+	"bookshelf_service/src/app/config"
+	"bookshelf_service/src/controllers/books_controllers"
+	"github.com/sladonia/log"
 	"net/http"
 )
 
 func StartApp() {
-	mux := &http.ServeMux{}
+	if err := config.Load("config.yml"); err != nil {
+		panic(err)
+	}
+	if err := log.InitLogger(config.Config.ServiceName, config.Config.LogLevel); err != nil {
+		panic(err)
+	}
 
-	addr := "0.0.0.0:8080"
-	log.Printf("start listening on: %s", addr)
-
-	if err := http.ListenAndServe(addr, mux); err != nil {
+	http.HandleFunc("/book", books_controllers.GetBook)
+	log.Debugf("Start listening on port %s", config.Config.Port)
+	if err := http.ListenAndServe(config.Config.Port, nil); err != nil {
 		panic(err)
 	}
 }
