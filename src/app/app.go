@@ -1,8 +1,10 @@
 package app
 
 import (
-	"bookshelf_service/src/app/config"
+	"bookshelf_service/src/config"
 	"bookshelf_service/src/controllers/books_controllers"
+	"bookshelf_service/src/middlewares/logging"
+	"github.com/gorilla/mux"
 	"github.com/sladonia/log"
 	"net/http"
 )
@@ -15,9 +17,12 @@ func StartApp() {
 		panic(err)
 	}
 
-	http.HandleFunc("/book", books_controllers.GetBook)
-	log.Debugf("Start listening on port %s", config.Config.Port)
-	if err := http.ListenAndServe(config.Config.Port, nil); err != nil {
+	r := mux.NewRouter()
+	r.Use(logging.LoggingMw)
+	r.HandleFunc("/book", books_controllers.GetBook).Methods("GET")
+	r.HandleFunc("/book", books_controllers.CreateBook).Methods("POST")
+	log.Infof("Start listening on port %s", config.Config.Port)
+	if err := http.ListenAndServe(config.Config.Port, r); err != nil {
 		panic(err)
 	}
 }

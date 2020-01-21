@@ -8,5 +8,11 @@ import (
 
 func GetBook(resp http.ResponseWriter, req *http.Request) {
 	log.Debug("getting the book")
-	io.WriteString(resp, "here is your book, please")
+	//resp.Header().Add("Content-Type", "application/json")
+	resp.Write([]byte(`{"status":"OK"}`))
+}
+
+func CreateBook(resp http.ResponseWriter, req *http.Request) {
+	log.Debug("getting the book")
+	io.WriteString(resp, "creating a book")
 }
