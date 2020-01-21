@@ -27,6 +27,6 @@ stop-containers:
 	docker container ls -q | xargs docker container stop 2>/dev/null || true
 
 docker-run:
-	@ docker run -p 8080:8080 bookshelf_service
+	@ docker run -p 8080:8080 $(SERVICE_NAME)
 
 .PHONY: run build fmt dep update docker-build stop-containers
