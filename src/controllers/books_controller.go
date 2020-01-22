@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	BookstoreController BooksControllerInterface = &booksController{}
+	BooksController BooksControllerInterface = &booksController{}
 )
 
 type BooksControllerInterface interface {

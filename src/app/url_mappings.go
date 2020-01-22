@@ -7,7 +7,7 @@ import (
 
 func mapUrls(r *mux.Router) {
 	r.HandleFunc("/", controllers.RootController.Get)
-	r.HandleFunc("/book/{id:[0-9]+}", controllers.BookstoreController.Get).Methods("GET")
-	r.HandleFunc("/book", controllers.BookstoreController.Create).Methods("POST")
-	r.HandleFunc("/book/search", controllers.BookstoreController.Search).Methods("GET")
+	r.HandleFunc("/book/{id:[0-9]+}", controllers.BooksController.Get).Methods("GET")
+	r.HandleFunc("/book", controllers.BooksController.Create).Methods("POST")
+	r.HandleFunc("/book/search", controllers.BooksController.Search).Methods("GET")
 }
