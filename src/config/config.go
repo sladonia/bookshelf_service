@@ -12,6 +12,15 @@ type Configuration struct {
 	WriteTimeout int    `env:"WRITE_TIMEOUT"`
 	ReadTimeout  int    `env:"READ_TIMEOUT"`
 	IdleTimeout  int    `env:"IDLE_TIMEOUT"`
+	BookshelfDb  BookshelfDb
+}
+
+type BookshelfDb struct {
+	Host     string `env:"POSTGRES_HOST"`
+	Port     string `env:"POSTGRES_PORT"`
+	DbName   string `env:"POSTGRES_DB"`
+	User     string `env:"POSTGRES_USER"`
+	Password string `env:"POSTGRES_PASSWORD"`
 }
 
 func Load(configPath string) error {

@@ -5,3 +5,9 @@ port: :8080
 writetimeout: 500
 readtimeout: 2
 idletimeout: 60
+bookshelfdb:
+  host: localhost
+  port: 5432
+  dbname: bookshelf_db
+  user: user
+  password: password
