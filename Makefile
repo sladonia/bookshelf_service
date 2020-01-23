@@ -19,14 +19,23 @@ update:
 	@ cd src
 	go get -u
 
-docker-build:
+docker_build:
 	$(BUILD)
 	docker build -t $(SERVICE_NAME) .
 
-stop-containers:
+stop_containers:
 	docker container ls -q | xargs docker container stop 2>/dev/null || true
 
-docker-run:
+docker_run:
 	@ docker run -p 8080:8080 $(SERVICE_NAME)
 
-.PHONY: run build fmt dep update docker-build stop-containers
+create_tables:
+	PGPASSWORD=password psql -h localhost -p 5432 -f postgres/crete_tables.sql bookshelf_db user
+
+recreate_tables:
+	PGPASSWORD=password psql -h localhost -p 5432 -f postgres/recrete_tables.sql bookshelf_db user
+
+clear_tables:
+	PGPASSWORD=password psql -h localhost -p 5432 -f postgres/delete_all_data.sql bookshelf_db user
+
+.PHONY: run build fmt dep update docker_build stop_containers docker_run create_tables

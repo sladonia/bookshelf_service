@@ -1,19 +1,21 @@
 CREATE TABLE author(
     id serial primary key,
     first_name text,
-    last_name text
+    last_name text,
+    UNIQUE (first_name, last_name)
 );
 
 CREATE TABLE book(
     id serial PRIMARY KEY,
     author_id integer REFERENCES author(id) ON UPDATE CASCADE ON DELETE CASCADE,
     title varchar(255),
-    number_pages integer
+    number_pages integer,
+    UNIQUE (author_id, title)
 );
 
 CREATE TABLE genre (
   id serial PRIMARY KEY,
-  name varchar(64)
+  name varchar(64) unique
 );
 
 CREATE TABLE book_genre (

@@ -7,7 +7,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/sladonia/log"
 	"net/http"
-	"time"
 )
 
 func StartApp() {
@@ -18,18 +17,21 @@ func StartApp() {
 		panic(err)
 	}
 
-	bookshelfdb.InitDb()
+	bookshelfdb.InitDb(
+		config.Config.BookshelfDb.Host,
+		config.Config.BookshelfDb.Port,
+		config.Config.BookshelfDb.User,
+		config.Config.BookshelfDb.Password,
+		config.Config.BookshelfDb.DbName,
+	)
 
 	r := mux.NewRouter()
 	r.Use(logging.LoggingMw)
 	mapUrls(r)
 
 	srv := &http.Server{
-		Addr:         config.Config.Port,
-		Handler:      r,
-		ReadTimeout:  time.Duration(config.Config.ReadTimeout) * time.Microsecond,
-		WriteTimeout: time.Duration(config.Config.WriteTimeout) * time.Second,
-		IdleTimeout:  time.Duration(config.Config.IdleTimeout) * time.Second,
+		Addr:    config.Config.Port,
+		Handler: r,
 	}
 
 	log.Infof("Start listening on port %s", config.Config.Port)

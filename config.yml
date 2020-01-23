@@ -2,9 +2,6 @@ servicename: bookshelf_service
 env: dev
 loglevel: debug
 port: :8080
-writetimeout: 500
-readtimeout: 2
-idletimeout: 60
 bookshelfdb:
   host: localhost
   port: 5432

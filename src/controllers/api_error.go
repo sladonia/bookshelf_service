@@ -45,7 +45,7 @@ func NewNotImplementedApiError(message string) ApiError {
 	}
 }
 
-func NewBadErquestApiError(message string) ApiError {
+func NewBadRequestApiError(message string) ApiError {
 	return apiError{
 		Message:    message,
 		StatusCode: http.StatusBadRequest,

@@ -1,26 +1,12 @@
 package books
 
-//const (
-//	UnknownGenre = iota
-//	Fantasy
-//	ScienceFiction
-//	Horror
-//	Western
-//	Romance
-//	Thriller
-//	Mystery
-//	Detective
-//	Dystopia
-//	Newspaper
-//)
-
 type Genre struct {
-	Id   int    `json:"id"`
+	Id   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
 type Book struct {
-	Id          int     `json:"id"`
+	Id          int64   `json:"id"`
 	AuthorId    int     `json:"author_id"`
 	Title       string  `json:"title"`
 	Author      Author  `json:"author"`
@@ -29,6 +15,7 @@ type Book struct {
 }
 
 type Author struct {
+	Id        int64  `json:"id"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 }

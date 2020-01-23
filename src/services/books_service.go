@@ -1,4 +1,3 @@
 package services
 
-type BookServiceInterface interface {
-}
+type BookServiceInterface interface{}
