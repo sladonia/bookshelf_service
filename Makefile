@@ -23,12 +23,6 @@ docker_build:
 	$(BUILD)
 	docker build -t $(SERVICE_NAME) .
 
-stop_containers:
-	docker container ls -q | xargs docker container stop 2>/dev/null || true
-
-docker_run:
-	@ docker run -p 8080:8080 $(SERVICE_NAME)
-
 create_tables:
 	PGPASSWORD=password psql -h localhost -p 5432 -f postgres/crete_tables.sql bookshelf_db user
 

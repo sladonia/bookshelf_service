@@ -2,7 +2,7 @@ package books
 
 import (
 	"bookshelf_service/src/datasources/postgress/bookshelfdb"
-	"strings"
+	"bookshelf_service/src/domains"
 )
 
 const (
@@ -20,7 +20,7 @@ func (a *Author) Save() error {
 	err := row.Scan(&id)
 
 	if err != nil {
-		dbError := DatabaseError{
+		dbError := domains.DatabaseError{
 			Message: "error trying to create Author",
 			Err:     err,
 		}
@@ -28,16 +28,5 @@ func (a *Author) Save() error {
 	}
 
 	a.Id = id
-	return nil
-}
-
-func (a *Author) CleanAndValidate() error {
-	a.LastName = strings.TrimSpace(a.LastName)
-	a.FirstName = strings.TrimSpace(a.FirstName)
-	if a.LastName == "" {
-		return NewValidationError("last_name can not be empty")
-	} else if a.FirstName == "" {
-		return NewValidationError("first_name can not be empty")
-	}
 	return nil
 }

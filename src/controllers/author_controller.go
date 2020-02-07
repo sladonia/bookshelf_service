@@ -39,6 +39,13 @@ func (a *authorController) Create(w http.ResponseWriter, r *http.Request) {
 		ErrorResponse(w, apiErr)
 		return
 	}
+	if err := authorRequest.CleanAndValidate(); err != nil {
+		errorMsg := "invalid json body"
+		log.Infow(errorMsg, "err", err.Error(), "path", r.URL.Path)
+		apiErr := NewApiError(errorMsg, err.Error(), http.StatusBadRequest)
+		ErrorResponse(w, apiErr)
+		return
+	}
 
 	author, err := services.AuthorService.Create(authorRequest.FirstName, authorRequest.LastName)
 	if err != nil {

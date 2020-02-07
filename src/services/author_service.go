@@ -17,9 +17,6 @@ func (a *authorService) Create(firstName, lastName string) (*books.Author, error
 		FirstName: firstName,
 		LastName:  lastName,
 	}
-	if err := author.CleanAndValidate(); err != nil {
-		return nil, err
-	}
 	if err := author.Save(); err != nil {
 		return nil, err
 	}
