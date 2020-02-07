@@ -1,6 +1,9 @@
 package services
 
-import "bookshelf_service/src/domains/books"
+import (
+	"bookshelf_service/src/datasources/postgress/bookshelfdb"
+	"bookshelf_service/src/domains/books"
+)
 
 var (
 	AuthorService AuthorServiceInterface = &authorService{}
@@ -17,7 +20,7 @@ func (a *authorService) Create(firstName, lastName string) (*books.Author, error
 		FirstName: firstName,
 		LastName:  lastName,
 	}
-	if err := author.Save(); err != nil {
+	if err := author.Save(bookshelfdb.Client); err != nil {
 		return nil, err
 	}
 	return author, nil
