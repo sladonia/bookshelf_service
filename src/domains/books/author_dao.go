@@ -21,8 +21,9 @@ type Author struct {
 }
 
 type AuthorInterface interface {
-	Save() error
-	Remove(id int64) error
+	Save(db *sql.DB) error
+	Delete(db *sql.DB) error
+	Update(db *sql.DB) error
 }
 
 func (a *Author) ValidateData() error {
