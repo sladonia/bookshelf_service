@@ -1,4 +1,4 @@
-package books
+package author
 
 import (
 	"bookshelf_service/src/domains"
@@ -8,10 +8,11 @@ import (
 )
 
 const (
-	queryCreateAuthor = "INSERT INTO author(first_name, last_name) VALUES($1, $2) RETURNING id;"
-	queryDeleteAuthor = "DELETE FROM author WHERE id = $1;"
-	querySelectAuthor = "SELECT id, first_name, last_name FROM author WHERE id = $1;"
-	queryUpdateAuthor = "UPDATE author SET first_name=$1, last_name=$2 WHERE id=$3;"
+	queryCreateAuthor   = "INSERT INTO author(first_name, last_name) VALUES($1, $2) RETURNING id;"
+	queryDeleteAuthor   = "DELETE FROM author WHERE id = $1;"
+	querySelectAuthor   = "SELECT id, first_name, last_name FROM author WHERE id = $1;"
+	queryUpdateAuthor   = "UPDATE author SET first_name=$1, last_name=$2 WHERE id=$3;"
+	queryRetrieveAuthor = "SELECT id, first_name, last_name FROM author WHERE id=$1;"
 )
 
 type Author struct {
@@ -24,6 +25,7 @@ type AuthorInterface interface {
 	Save(db *sql.DB) error
 	Delete(db *sql.DB) error
 	Update(db *sql.DB) error
+	Retrieve(db *sql.DB) error
 }
 
 func (a *Author) ValidateData() error {
@@ -40,6 +42,15 @@ func (a *Author) ValidateData() error {
 			Message: "last name can not be empty",
 			Err:     nil,
 		}
+	}
+	return nil
+}
+
+func (a *Author) Retrieve(db *sql.DB) error {
+	row := db.QueryRow(queryRetrieveAuthor, a.Id)
+	err := row.Scan(&a.Id, &a.FirstName, &a.LastName)
+	if err != nil {
+		return err
 	}
 	return nil
 }

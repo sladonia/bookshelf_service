@@ -1,4 +1,4 @@
-package books
+package author
 
 import (
 	"bookshelf_service/src/datasources/postgress/bookshelfdb"
@@ -112,4 +112,22 @@ func TestAuthor_Update(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, newFirstName, dbFirstName)
 	assert.Equal(t, newLastName, dbLastName)
+}
+
+func TestAuthor_Retrieve(t *testing.T) {
+	defer CleanData()
+	firstName := "Jack"
+	lastName := "Black"
+	author := Author{
+		FirstName: firstName,
+		LastName:  lastName,
+	}
+	err := author.Save(bookshelfdb.Client)
+	assert.Nil(t, err)
+
+	retrievedAuthor := Author{Id: author.Id}
+	err = retrievedAuthor.Retrieve(bookshelfdb.Client)
+	assert.Nil(t, err)
+	assert.Equal(t, firstName, retrievedAuthor.FirstName)
+	assert.Equal(t, lastName, retrievedAuthor.LastName)
 }

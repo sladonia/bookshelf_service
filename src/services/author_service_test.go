@@ -9,9 +9,10 @@ import (
 )
 
 var (
-	saveAuthorFunc   func(db *sql.DB) error
-	deleteAuthorFunc func(db *sql.DB) error
-	updateAuthorFunc func(db *sql.DB) error
+	saveAuthorFunc     func(db *sql.DB) error
+	deleteAuthorFunc   func(db *sql.DB) error
+	updateAuthorFunc   func(db *sql.DB) error
+	retreiveAuthorFunc func(db *sql.DB) error
 )
 
 type authorDaoMock struct {
@@ -30,6 +31,10 @@ func (a *authorDaoMock) Delete(db *sql.DB) error {
 
 func (a *authorDaoMock) Update(db *sql.DB) error {
 	return updateAuthorFunc(db)
+}
+
+func (a *authorDaoMock) Retrieve(db *sql.DB) error {
+	return retreiveAuthorFunc(db)
 }
 
 func saveAuthorOk(db *sql.DB) error {

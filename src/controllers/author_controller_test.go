@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"bookshelf_service/src/domains"
-	"bookshelf_service/src/domains/books"
+	"bookshelf_service/src/domains/author"
 	"bookshelf_service/src/domains/responses"
 	"bookshelf_service/src/logger"
 	"bookshelf_service/src/services"
@@ -17,20 +17,35 @@ import (
 )
 
 var (
-	createAuthorFunction func(author books.Author) (*books.Author, error)
+	createAuthorFunction func(author author.Author) (*author.Author, error)
+	deleteAuthorFunction func(authorId int64) (*author.Author, error)
+	getAuthorFunction    func(aithorId int64) (*author.Author, error)
+	updateAuthorFunction func(author author.Author) (*author.Author, error)
 )
 
 type authorServiceMock struct{}
 
-func (a *authorServiceMock) Create(author books.Author) (*books.Author, error) {
+func (a *authorServiceMock) Create(author author.Author) (*author.Author, error) {
 	return createAuthorFunction(author)
 }
 
-func createAuthorSuccess(author books.Author) (*books.Author, error) {
+func (a *authorServiceMock) Delete(authorId int64) (*author.Author, error) {
+	return deleteAuthorFunction(authorId)
+}
+
+func (a *authorServiceMock) Get(authorId int64) (*author.Author, error) {
+	return getAuthorFunction(authorId)
+}
+
+func (a *authorServiceMock) Update(author author.Author) (*author.Author, error) {
+	return updateAuthorFunction(author)
+}
+
+func createAuthorSuccess(author author.Author) (*author.Author, error) {
 	return &author, nil
 }
 
-func createAuthorErrorAuhorExists(author books.Author) (*books.Author, error) {
+func createAuthorErrorAuhorExists(author author.Author) (*author.Author, error) {
 	return nil, domains.DatabaseError{
 		Message: "error trying to create Author",
 		Err:     errors.New("author exists"),
