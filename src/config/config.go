@@ -13,11 +13,14 @@ type Configuration struct {
 }
 
 type BookshelfDb struct {
-	Host     string `env:"POSTGRES_HOST"`
-	Port     string `env:"POSTGRES_PORT"`
-	DbName   string `env:"POSTGRES_DB"`
-	User     string `env:"POSTGRES_USER"`
-	Password string `env:"POSTGRES_PASSWORD"`
+	Host                  string `env:"POSTGRES_HOST"`
+	Port                  string `env:"POSTGRES_PORT"`
+	DbName                string `env:"POSTGRES_DB"`
+	User                  string `env:"POSTGRES_USER"`
+	Password              string `env:"POSTGRES_PASSWORD"`
+	MaxOpenConnections    int    `env:"POSTGRES_MAX_OPEN_CONNECTIONS"`
+	MaxIdleConnections    int    `env:"POSTGRES_MAX_IDLE_CONNECTIONS"`
+	ConnectionMaxLifetime int    `env:"POSTGRES_CONNECTION_MAX_LIFETIME"`
 }
 
 func Load(configPath string) error {

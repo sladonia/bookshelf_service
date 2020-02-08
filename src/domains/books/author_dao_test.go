@@ -22,6 +22,9 @@ func TestMain(m *testing.M) {
 		"user",
 		"password",
 		"bookshelf_db",
+		25,
+		25,
+		5,
 	)
 	if err := bookshelfdb.Client.Ping(); err != nil {
 		fmt.Println("error connecting to test db", err)

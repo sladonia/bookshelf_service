@@ -6,13 +6,14 @@ import (
 	"fmt"
 	_ "github.com/lib/pq"
 	"github.com/sladonia/log"
+	"time"
 )
 
 var (
 	Client *sql.DB
 )
 
-func InitDb(host, port, user, password, dbName string) {
+func InitDb(host, port, user, password, dbName string, maxConn, maxIdleConn, connLifetime int) {
 	psqlInfo := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbName)
@@ -26,6 +27,8 @@ func InitDb(host, port, user, password, dbName string) {
 	if err = Client.Ping(); err != nil {
 		panic(err)
 	}
-
+	Client.SetMaxOpenConns(maxConn)
+	Client.SetMaxIdleConns(maxIdleConn)
+	Client.SetConnMaxLifetime(time.Duration(connLifetime) * time.Minute)
 	log.Debugf("%s database is configured", config.Config.BookshelfDb.DbName)
 }

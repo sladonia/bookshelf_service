@@ -17,12 +17,16 @@ func StartApp() {
 		panic(err)
 	}
 
+	dbConfig := config.Config.BookshelfDb
 	bookshelfdb.InitDb(
-		config.Config.BookshelfDb.Host,
-		config.Config.BookshelfDb.Port,
-		config.Config.BookshelfDb.User,
-		config.Config.BookshelfDb.Password,
-		config.Config.BookshelfDb.DbName,
+		dbConfig.Host,
+		dbConfig.Port,
+		dbConfig.User,
+		dbConfig.Password,
+		dbConfig.DbName,
+		dbConfig.MaxOpenConnections,
+		dbConfig.MaxIdleConnections,
+		dbConfig.ConnectionMaxLifetime,
 	)
 
 	r := mux.NewRouter()
