@@ -4,6 +4,7 @@ import (
 	"bookshelf_service/src/domains"
 	"bookshelf_service/src/domains/books"
 	"bookshelf_service/src/domains/responses"
+	"bookshelf_service/src/logger"
 	"bookshelf_service/src/services"
 	"encoding/json"
 	"errors"
@@ -37,6 +38,7 @@ func createAuthorErrorAuhorExists(author books.Author) (*books.Author, error) {
 }
 
 func TestMain(m *testing.M) {
+	logger.InitLogger("bookshelf_service", "fatal")
 	services.AuthorService = &authorServiceMock{}
 	os.Exit(m.Run())
 }

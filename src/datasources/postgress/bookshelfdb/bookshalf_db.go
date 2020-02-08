@@ -2,10 +2,10 @@ package bookshelfdb
 
 import (
 	"bookshelf_service/src/config"
+	"bookshelf_service/src/logger"
 	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
-	"github.com/sladonia/log"
 	"time"
 )
 
@@ -30,5 +30,5 @@ func InitDb(host, port, user, password, dbName string, maxConn, maxIdleConn, con
 	Client.SetMaxOpenConns(maxConn)
 	Client.SetMaxIdleConns(maxIdleConn)
 	Client.SetConnMaxLifetime(time.Duration(connLifetime) * time.Minute)
-	log.Debugf("%s database is configured", config.Config.BookshelfDb.DbName)
+	logger.Logger.Debugf("%s database is configured", config.Config.BookshelfDb.DbName)
 }
