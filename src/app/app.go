@@ -10,7 +10,7 @@ import (
 )
 
 func StartApp() {
-	if err := config.Load("config.yml"); err != nil {
+	if err := config.Load(); err != nil {
 		panic(err)
 	}
 	if err := log.InitLogger(config.Config.ServiceName, config.Config.LogLevel); err != nil {
