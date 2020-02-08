@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -59,4 +60,13 @@ func NewNotFoundApiError(message string) ApiError {
 		StatusCode: http.StatusNotFound,
 		Err:        "not_found",
 	}
+}
+
+func NewApiErrorFromBytes(bytes []byte) (ApiError, error) {
+	var myError apiError
+	err := json.Unmarshal(bytes, &myError)
+	if err != nil {
+		return nil, err
+	}
+	return &myError, nil
 }

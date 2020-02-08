@@ -24,7 +24,7 @@ docker_build:
 	docker build -t $(SERVICE_NAME) .
 
 test:
-	@ go test -v -cover ./src/...
+	@ go test -cover ./src/...
 
 create_tables:
 	PGPASSWORD=password psql -h localhost -p 5432 -f postgres/crete_tables.sql bookshelf_db user
