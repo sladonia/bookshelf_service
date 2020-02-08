@@ -7,6 +7,9 @@ import (
 	"bookshelf_service/src/middlewares/logging"
 	"github.com/gorilla/mux"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func StartApp() {
@@ -38,8 +41,17 @@ func StartApp() {
 		Handler: r,
 	}
 
-	logger.Logger.Infof("Start listening on port %s", config.Config.Port)
-	if err := srv.ListenAndServe(); err != nil {
-		panic(err)
-	}
+	done := make(chan os.Signal, 1)
+	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		logger.Logger.Infof("Start listening on port %s", config.Config.Port)
+		if err := srv.ListenAndServe(); err != nil {
+			panic(err)
+		}
+	}()
+
+	<-done
+	logger.Logger.Info("shutting down gracefully")
+	logger.Logger.Sync()
 }

@@ -8,7 +8,10 @@ type DatabaseError struct {
 }
 
 func (d DatabaseError) Error() string {
-	return fmt.Sprintf("%s. err: %s", d.Message, d.Err.Error())
+	if d.Err != nil {
+		return fmt.Sprintf("%s. err: %s", d.Message, d.Err.Error())
+	}
+	return fmt.Sprintf("%s", d.Message)
 }
 
 type ValidationError struct {
