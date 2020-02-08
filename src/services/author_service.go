@@ -10,18 +10,14 @@ var (
 )
 
 type AuthorServiceInterface interface {
-	Create(firstName, lastName string) (*books.Author, error)
+	Create(author books.Author) (*books.Author, error)
 }
 
 type authorService struct{}
 
-func (a *authorService) Create(firstName, lastName string) (*books.Author, error) {
-	author := &books.Author{
-		FirstName: firstName,
-		LastName:  lastName,
-	}
+func (a *authorService) Create(author books.Author) (*books.Author, error) {
 	if err := author.Save(bookshelfdb.Client); err != nil {
 		return nil, err
 	}
-	return author, nil
+	return &author, nil
 }

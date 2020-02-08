@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"bookshelf_service/src/domains/requests"
+	"bookshelf_service/src/domains/books"
 	"bookshelf_service/src/domains/responses"
 	"bookshelf_service/src/services"
 	"encoding/json"
@@ -31,23 +31,18 @@ func (a *authorController) Create(w http.ResponseWriter, r *http.Request) {
 		ErrorResponse(w, apiErr)
 		return
 	}
-	authorRequest := requests.AuthorRequest{}
-	if err = json.Unmarshal(requestBody, &authorRequest); err != nil {
+	defer r.Body.Close()
+	var author books.Author
+	err = json.Unmarshal(requestBody, &author)
+	if err != nil {
 		errorMsg := "invalid json body"
 		log.Infow(errorMsg, "err", err.Error(), "path", r.URL.Path)
 		apiErr := NewBadRequestApiError(errorMsg)
 		ErrorResponse(w, apiErr)
 		return
 	}
-	if err := authorRequest.CleanAndValidate(); err != nil {
-		errorMsg := "invalid json body"
-		log.Infow(errorMsg, "err", err.Error(), "path", r.URL.Path)
-		apiErr := NewApiError(errorMsg, err.Error(), http.StatusBadRequest)
-		ErrorResponse(w, apiErr)
-		return
-	}
 
-	author, err := services.AuthorService.Create(authorRequest.FirstName, authorRequest.LastName)
+	result, err := services.AuthorService.Create(author)
 	if err != nil {
 		errorMsg := "unable to crate author object"
 		log.Infow(errorMsg, "err", err.Error(), "path", r.URL.Path)
@@ -57,7 +52,7 @@ func (a *authorController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	response := responses.ResponseCreated{
 		Message:   "author created",
-		CreatedId: author.Id,
+		CreatedId: result.Id,
 	}
 	JsonResponse(w, http.StatusCreated, response)
 }
